@@ -1,0 +1,271 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/apis/productos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener lista de productos",
+                "operationId": "getProductos",
+                "parameters": [
+                    {
+                        "name": "Habilitado",
+                        "in": "query",
+                        "description": "Filtrar por productos habilitados",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "marcanombre",
+                        "in": "query",
+                        "description": "Filtrar por Marcas",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa"
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    }
+                }
+            }
+        },
+        "/apis/marcas": {
+            "get": {
+                "tags": [
+                    "Marcas"
+                ],
+                "summary": "Obtener lista de marcas",
+                "operationId": "getMarcas",
+                "parameters": [
+                    {
+                        "name": "Habilitado",
+                        "in": "query",
+                        "description": "Filtrar por productos habilitados",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa"
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    }
+                }
+            }
+        },
+        "/apis/crearPedido": {
+            "post": {
+                "tags": [
+                    "Pedido"
+                ],
+                "summary": "Crea un nuevo pedido y sus detalles",
+                "operationId": "crearPedido",
+                "requestBody": {
+                    "description": "Cuerpo de la solicitud en formato JSON",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cliente": {
+                                        "description": "ID del cliente",
+                                        "type": "string"
+                                    },
+                                    "direccion": {
+                                        "description": "Direccion del cliente",
+                                        "type": "string"
+                                    },
+                                    "productos": {
+                                        "description": "Lista de productos",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "description": "nombre del producto",
+                                                    "type": "string"
+                                                },
+                                                "cantidad": {
+                                                    "description": "Cantidad del producto",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa"
+                    },
+                    "500": {
+                        "description": "Solicitud incorrecta"
+                    }
+                }
+            }
+        },
+        "/apis/editarPedido": {
+            "put": {
+                "tags": [
+                    "Pedido"
+                ],
+                "summary": "Editar un pedido agregando producto o editandolos",
+                "operationId": "editarPedido",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "id del pedido, entregado al crear el mismo",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Direccion",
+                        "in": "query",
+                        "description": "direccion actualizada",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Cuerpo de la solicitud en formato JSON",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "productos": {
+                                        "description": "Lista de productos",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "description": "nombre del producto",
+                                                    "type": "string"
+                                                },
+                                                "cantidad": {
+                                                    "description": "Cantidad del producto",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa"
+                    },
+                    "500": {
+                        "description": "Solicitud incorrecta"
+                    }
+                }
+            }
+        },
+        "/apis/pedidos": {
+            "get": {
+                "tags": [
+                    "Pedido"
+                ],
+                "summary": "Obtener lista de pedidos",
+                "operationId": "getPedidos",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa"
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta"
+                    }
+                }
+            }
+        },
+        "/apis/eliminarPedido/{id}": {
+            "put": {
+                "tags": [
+                    "Pedido"
+                ],
+                "summary": "Elimina un pedido y sus detalles asociados",
+                "description": "Elimina un pedido y sus detalles asociados en base a su ID.",
+                "operationId": "eliminarPedido",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del pedido a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pedido eliminado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pedido eliminado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pedido no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "404": {
+                "description": "Pedido no encontrado"
+            }
+        }
+    }
+}
